@@ -8,6 +8,8 @@ const menu = () => Promise.resolve(import('../pages/menu/menu'))
 const home = () => Promise.resolve(import('../pages/home/home'))
 const role = () => Promise.resolve(import('../pages/role/role'))
 const manager= () => Promise.resolve(import('../pages/manager/manager'))
+const cate= () => Promise.resolve(import('../pages/cate/cate'))
+const spec= () => Promise.resolve(import('../pages/spec/spec'))
 export default new Router({
   routes: [
     {
@@ -38,6 +40,16 @@ export default new Router({
           path: 'manager',
           name: '管理员',
           component: manager
+        },
+        {
+          path: 'category',
+          name: '商品分类',
+          component: cate
+        },
+        {
+          path: 'specs',
+          name: '商品规格',
+          component: spec
         },
         {
           path: '',

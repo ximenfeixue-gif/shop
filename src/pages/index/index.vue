@@ -16,29 +16,26 @@
           <i class="el-icon-setting"></i>
           <span slot="title">首页</span>
         </el-menu-item>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>系统导航</span>
-          </template>
-          <!-- /--指的是一级路由，menu指的是二级路由的出口 -->
-          <el-menu-item index="/menu">菜单管理</el-menu-item>
-          <el-menu-item index="/role">角色管理</el-menu-item>
-          <el-menu-item index="/manager">管理员管理</el-menu-item>
-        </el-submenu>
-        <el-submenu index="3">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>商城导航</span>
-          </template>
-
-          <el-menu-item index="/cate">商品分类</el-menu-item>
-          <el-menu-item index="/spec">商品规格</el-menu-item>
-          <el-menu-item index="/goods">商品管理</el-menu-item>
-          <el-menu-item index="/member">会员管理</el-menu-item>
-          <el-menu-item index="/banner">轮播图管理</el-menu-item>
-          <el-menu-item index="/seckill">秒杀活动</el-menu-item>
-        </el-submenu>
+        <!-- 遍历侧边菜单目录 -->
+        <template v-for="item in user.menus">
+          <!-- 判断children -->
+          <el-submenu :index="item.title" :key="item.id" v-if="item.children">
+            <template slot="title">
+              <i :class="item.icon"></i>
+              <span>{{ item.title }}</span>
+            </template>
+            <el-menu-item
+              v-for="i in item.children"
+              :key="i.id"
+              :index="i.url"
+              >{{ i.title }}</el-menu-item
+            >
+          </el-submenu>
+          <!-- 此处遍历的是只有菜单 -->
+          <el-menu-item v-else :key="item.id" :index="item.url">{{
+            item.title
+          }}</el-menu-item>
+        </template>
       </el-menu>
     </el-aside>
     <!-- ***左边*** -->
@@ -66,11 +63,11 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   methods: {
     ...mapActions({
-      'reqUser': "userActions",
+      reqUser: "userActions",
     }),
     logOut() {
       // 第一步清空用户信息
-      // this.reqUser(null);
+      this.reqUser(null);
       // 第二步跳转页面s
       this.$router.push("/login");
     },
